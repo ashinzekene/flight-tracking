@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"dashboard bg-gray-200\">\n  <header>\n    <h1 class=\"text-3xl indigo-700 p-3 pl-6\">Flight Tracking System</h1>\n  </header>\n  \n  <section class=\"p-4 flex flex-wrap\">\n    <article *ngFor=\"let airport of airports\" class=\"p-3 sm:w-full w-full md:w-1/2 lg:w-1/4 h-56\">\n      <div class=\"flex flex-col w-full p-6 bg-white rounded-lg shadow-sm h-full cursor-pointer\">\n        <img class=\"w-12\" [src]=\"getLogo(airport.countryCode)\" [alt]=\"airport.country\">\n        <div class=\"flex-grow flex items-center\">\n          <h4 class=\"text-xl text-gray-900 leading-tight\">{{ airport.name }}</h4>\n        </div>\n        <div class=\"pt-1\">\n          <p class=\"text-base text-gray-600 leading-normal\">{{ airport.location }}</p>\n        </div>\n      </div>\n    </article>\n  </section>\n</div>\n\n<app-modal [airport]=\"airports[0]\" [visible]=\"true\"></app-modal>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"dashboard bg-gray-200\">\n  <header>\n    <h1 class=\"text-3xl indigo-700 p-3 pl-6\">Flight Tracking System</h1>\n  </header>\n  \n  <section class=\"p-4 flex flex-wrap\">\n    <article *ngFor=\"let airport of airports\" class=\"p-3 sm:w-full w-full md:w-1/2 lg:w-1/4 h-56\">\n      <div class=\"flex flex-col w-full p-6 bg-white rounded-lg shadow-sm h-full cursor-pointer\" (click)=\"onAirportClick(airport)\">\n        <img class=\"w-12\" [src]=\"getLogo(airport.countryCode)\" [alt]=\"airport.country\">\n        <div class=\"flex-grow flex items-center\">\n          <h4 class=\"text-xl text-gray-900 leading-tight\">{{ airport.name }}</h4>\n        </div>\n        <div class=\"pt-1\">\n          <p class=\"text-base text-gray-600 leading-normal\">{{ airport.location }}</p>\n        </div>\n      </div>\n    </article>\n  </section>\n</div>\n\n<app-modal [airport]=\"airport\" (closeModal)=\"modalVisible = false\" [visible]=\"modalVisible\"></app-modal>");
 
 /***/ }),
 
@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div *ngIf=\"visible\" class=\"overlay fixed h-screen w-screen flex flex-wrap items-center justify-center top-0 left-0 py-3  overflow-y-auto\">\n  <div class=\"modal-content p-6 bg-white rounded-lg shadow-xl\">\n    <h3 class=\"w-full text-2x text-center pt-3 pb-5\">Search for flight from {{ airport.name }}</h3>\n    <form class=\"flex\" [formGroup]=\"airportForm\" (ngSubmit)=\"onSubmit()\">\n      <div class=\"field px-3\">\n        <mat-form-field>\n          <mat-label>Arrival or departure</mat-label>\n          <mat-select placeholder=\"Choose type\" class=\"flex-grow flex items-center\" formControlName=\"type\" >\n            <mat-option value=\"arrival\">Arrival</mat-option>\n            <mat-option value=\"departure\">Departure</mat-option>\n          </mat-select>\n        </mat-form-field>\n      </div>\n      <div class=\"field px-3\">\n        <mat-form-field>\n          <input type=\"number\" placeholder=\"X minutes (350+)\" aria-label=\"X minutes\" matInput formControlName=\"minutes\" />\n        </mat-form-field>\n      </div>\n      <div class=\"flex items-center px-3\">\n        <button mat-raised-button color=\"primary\" [disabled]=\"!airportForm.valid\">Search</button>\n      </div>\n    </form>\n    <div class=\"results\">\n      <div class=\"text-center text-red-700\" *ngIf=\"result && !result.length\">No flights found</div>\n      <div class=\"rounded\" *ngFor=\"let flight of result\">\n        <p>Callsign {{ flight.callsign }}</p>\n        <p>DepartureAirport {{ flight.estDepartureAirport || \"Unknown\" }}</p>\n        <p>Arrival Airport {{ flight.estArrivalAirport }}</p>\n      </div>\n    </div>\n  </div>\n  </div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div *ngIf=\"visible\" class=\"overlay fixed h-screen w-screen flex flex-wrap items-center justify-center top-0 left-0 py-3  overflow-y-auto\" (click)=\"closeModal.emit()\">\n  <div class=\"modal-content max-w-full p-6 bg-white rounded-lg shadow-xl border border-gray-300\" (click)=\"$event.stopPropagation()\">\n    <h3 class=\"w-full text-2x text-center pt-3 pb-5\">Search for flight from {{ airport.name }}</h3>\n    <form class=\"flex flex-wrap sm:flex-nowrap\" [formGroup]=\"airportForm\" (ngSubmit)=\"onSubmit()\">\n      <div class=\"field px-3 w-full sm:w-auto flex justify-center\">\n        <mat-form-field>\n          <mat-label>Arrival or departure</mat-label>\n          <mat-select placeholder=\"Choose type\" class=\"flex-grow flex items-center\" formControlName=\"type\" >\n            <mat-option value=\"arrival\">Arrival</mat-option>\n            <mat-option value=\"departure\">Departure</mat-option>\n          </mat-select>\n        </mat-form-field>\n      </div>\n      <div class=\"field px-3 w-full sm:w-auto flex justify-center\">\n        <mat-form-field>\n          <input type=\"number\" placeholder=\"X minutes (350+)\" aria-label=\"X minutes\" matInput formControlName=\"minutes\" />\n        </mat-form-field>\n      </div>\n      <div class=\"flex items-center px-3 w-full sm:w-auto flex justify-center\">\n        <button mat-raised-button color=\"primary\" [disabled]=\"!airportForm.valid\">Search</button>\n      </div>\n    </form>\n    <div class=\"results\">\n      <div class=\"text-center text-red-700\" *ngIf=\"result && !result.length\">No flights found</div>\n      <div class=\"rounded p-3 my-3 border border-gray-300\" *ngFor=\"let flight of result\">\n        <div class=\"flex justify-between\">\n          <p>Callsign: </p>\n          <p>{{ flight.callsign }}</p>\n        </div>\n        <div class=\"flex justify-between\">\n          <p>DepartureAirport: </p>\n          <p>{{ flight.estDepartureAirport || \"Unknown\" }}</p>\n        </div>\n        <div class=\"flex justify-between\">\n          <p>Arrival Airport: </p>\n          <p>{{ flight.estArrivalAirport }}</p>\n        </div>\n        <div class=\"flex justify-between\">\n          <p>First seen: </p>\n          <p>{{ getDate(flight.firstSeen) }}</p>\n        </div>\n        <div class=\"flex justify-between\">\n          <p>Last seen: </p>\n          <p>{{ getDate(flight.lastSeen) }}</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>");
 
 /***/ }),
 
@@ -639,9 +639,13 @@ let DashboardComponent = class DashboardComponent {
         this.api = api;
         this.sanitize = sanitize;
         this.airports = [];
+        this.modalVisible = false;
         this.airports = this.api.airports;
     }
-    ngOnInit() {
+    ngOnInit() { }
+    onAirportClick(airport) {
+        this.airport = airport;
+        this.modalVisible = true;
     }
     getLogo(countryCode) {
         return this.sanitize.bypassSecurityTrustUrl(`https://www.countryflags.io/${countryCode}/flat/64.png`);
@@ -1079,14 +1083,18 @@ let ModalComponent = class ModalComponent {
         }
         this.result = undefined;
         subscription.subscribe(flights => {
-            console.log({ flights });
             this.result = flights;
         }, err => {
-            console.log({ err });
             if (err.status === 404) {
                 this.result = [];
             }
         });
+    }
+    getDate(time) {
+        if (!time) {
+            return 'Unknown';
+        }
+        return (new Date(time * 1000)).toTimeString();
     }
     ngOnInit() {
     }

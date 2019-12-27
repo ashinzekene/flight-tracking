@@ -1,8 +1,8 @@
-<div *ngIf="visible" class="overlay fixed h-screen w-screen flex flex-wrap items-center justify-center top-0 left-0 py-3  overflow-y-auto">
-  <div class="modal-content p-6 bg-white rounded-lg shadow-xl">
+<div *ngIf="visible" class="overlay fixed h-screen w-screen flex flex-wrap items-center justify-center top-0 left-0 py-3  overflow-y-auto" (click)="closeModal.emit()">
+  <div class="modal-content max-w-full p-6 bg-white rounded-lg shadow-xl border border-gray-300" (click)="$event.stopPropagation()">
     <h3 class="w-full text-2x text-center pt-3 pb-5">Search for flight from {{ airport.name }}</h3>
-    <form class="flex" [formGroup]="airportForm" (ngSubmit)="onSubmit()">
-      <div class="field px-3">
+    <form class="flex flex-wrap sm:flex-nowrap" [formGroup]="airportForm" (ngSubmit)="onSubmit()">
+      <div class="field px-3 w-full sm:w-auto flex justify-center">
         <mat-form-field>
           <mat-label>Arrival or departure</mat-label>
           <mat-select placeholder="Choose type" class="flex-grow flex items-center" formControlName="type" >
@@ -11,22 +11,39 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="field px-3">
+      <div class="field px-3 w-full sm:w-auto flex justify-center">
         <mat-form-field>
           <input type="number" placeholder="X minutes (350+)" aria-label="X minutes" matInput formControlName="minutes" />
         </mat-form-field>
       </div>
-      <div class="flex items-center px-3">
+      <div class="flex items-center px-3 w-full sm:w-auto flex justify-center">
         <button mat-raised-button color="primary" [disabled]="!airportForm.valid">Search</button>
       </div>
     </form>
     <div class="results">
       <div class="text-center text-red-700" *ngIf="result && !result.length">No flights found</div>
-      <div class="rounded" *ngFor="let flight of result">
-        <p>Callsign {{ flight.callsign }}</p>
-        <p>DepartureAirport {{ flight.estDepartureAirport || "Unknown" }}</p>
-        <p>Arrival Airport {{ flight.estArrivalAirport }}</p>
+      <div class="rounded p-3 my-3 border border-gray-300" *ngFor="let flight of result">
+        <div class="flex justify-between">
+          <p>Callsign: </p>
+          <p>{{ flight.callsign }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>DepartureAirport: </p>
+          <p>{{ flight.estDepartureAirport || "Unknown" }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Arrival Airport: </p>
+          <p>{{ flight.estArrivalAirport }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>First seen: </p>
+          <p>{{ getDate(flight.firstSeen) }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Last seen: </p>
+          <p>{{ getDate(flight.lastSeen) }}</p>
+        </div>
       </div>
     </div>
   </div>
-  </div>
+</div>

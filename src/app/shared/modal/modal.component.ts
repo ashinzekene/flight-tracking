@@ -13,7 +13,7 @@ import { Flight } from 'src/app/models/Flight';
 export class ModalComponent implements OnInit {
   @Input() airport: Airport;
   @Input() visible: boolean;
-  @Output() closeModal: EventEmitter<void> = new EventEmitter();
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
   result: Flight[];
 
@@ -34,13 +34,16 @@ export class ModalComponent implements OnInit {
     }
     this.result = undefined;
     subscription.subscribe(flights => {
-      console.log({flights});
       this.result = flights;
     },
     err => {
-      console.log({err});
       if (err.status === 404) { this.result = []; }
     });
+  }
+
+  getDate(time?: number) {
+    if (!time) { return 'Unknown'; }
+    return (new Date(time * 1000)).toTimeString();
   }
 
   ngOnInit() {

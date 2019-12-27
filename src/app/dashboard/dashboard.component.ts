@@ -10,11 +10,17 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class DashboardComponent implements OnInit {
   airports: Airport[] = [];
+  airport: Airport;
+  modalVisible = false;
   constructor(private api: ApiService, private sanitize: DomSanitizer) {
     this.airports = this.api.airports;
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onAirportClick(airport: Airport) {
+    this.airport = airport;
+    this.modalVisible = true;
   }
   getLogo(countryCode: string): SafeUrl {
     return this.sanitize.bypassSecurityTrustUrl(`https://www.countryflags.io/${countryCode}/flat/64.png`);

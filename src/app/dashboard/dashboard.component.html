@@ -5,7 +5,7 @@
   
   <section class="p-4 flex flex-wrap">
     <article *ngFor="let airport of airports" class="p-3 sm:w-full w-full md:w-1/2 lg:w-1/4 h-56">
-      <div class="flex flex-col w-full p-6 bg-white rounded-lg shadow-sm h-full cursor-pointer">
+      <div class="flex flex-col w-full p-6 bg-white rounded-lg shadow-sm h-full cursor-pointer" (click)="onAirportClick(airport)">
         <img class="w-12" [src]="getLogo(airport.countryCode)" [alt]="airport.country">
         <div class="flex-grow flex items-center">
           <h4 class="text-xl text-gray-900 leading-tight">{{ airport.name }}</h4>
@@ -18,4 +18,4 @@
   </section>
 </div>
 
-<app-modal [airport]="airports[0]" [visible]="true"></app-modal>
+<app-modal [airport]="airport" (closeModal)="modalVisible = false" [visible]="modalVisible"></app-modal>
