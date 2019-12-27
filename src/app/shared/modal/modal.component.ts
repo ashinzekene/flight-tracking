@@ -16,6 +16,7 @@ export class ModalComponent implements OnInit {
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
   result: Flight[];
+  loading = false;
 
   airportForm = new FormGroup({
     minutes: new FormControl('', [Validators.required, Validators.min(300)]),
@@ -26,6 +27,8 @@ export class ModalComponent implements OnInit {
   onSubmit() {
     const minutes = this.airportForm.get('minutes').value;
     const type = this.airportForm.get('type').value;
+    this.loading = true;
+
     let subscription: Observable<Flight[]>;
     if (type === 'arrival') {
       subscription = this.api.arrivalsByAirport(this.airport.icao, minutes);
@@ -35,9 +38,12 @@ export class ModalComponent implements OnInit {
     this.result = undefined;
     subscription.subscribe(flights => {
       this.result = flights;
+      this.loading = false;
     },
     err => {
       if (err.status === 404) { this.result = []; }
+      this.loading = false;
+
     });
   }
 

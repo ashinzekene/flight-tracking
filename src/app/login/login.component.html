@@ -35,7 +35,7 @@
           <div [style.visibility]="waiting ? 'visible' : 'hidden'" class="spin-container animation-spin">
             <mat-icon aria-label="loading" color="primary" class="x2">autorenew</mat-icon>
           </div>
-          <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Log In</button>
+          <button mat-raised-button color="primary" [disabled]="!loginForm.valid || waiting">Log In</button>
         </div>
       </section>
     </form>

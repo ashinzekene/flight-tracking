@@ -17,7 +17,7 @@
         </mat-form-field>
       </div>
       <div class="flex items-center px-3 w-full sm:w-auto flex justify-center">
-        <button mat-raised-button color="primary" [disabled]="!airportForm.valid">Search</button>
+        <button mat-raised-button color="primary" [disabled]="!airportForm.valid || loading">Search</button>
       </div>
     </form>
     <div class="results">
