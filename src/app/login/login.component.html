@@ -1,0 +1,35 @@
+<div class="login h-screen flex items-center justify-center md:bg-indigo-600">
+  <form class="p-6 w-full md:w-1/2 md:rounded-lg bg-white md:shadow-xl text-gray-800" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2 class="text-2xl py-3 text-center">Sign In</h2>
+    <section class="fields mt-6">
+      <div class="text-center">
+        <mat-form-field>
+          <input matInput type="text" formControlName="username" placeholder="Username" aria-label="Username">
+          <mat-icon matSuffix class="pointer"></mat-icon>
+          <mat-error class="error-message" *ngIf="username.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="text-center">
+        <mat-form-field>
+          <input matInput placeholder="Password" formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+          <mat-icon matSuffix (click)="hidePassword = !hidePassword" class="pointer">
+            {{hidePassword ? 'visibility_off' : 'visibility'}}
+          </mat-icon>
+          <mat-error class="error-message" *ngIf="password.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <mat-error class="text-center" *ngIf="!!errorText">
+        <span>{{errorText}}</span>
+      </mat-error>
+    </section>
+  
+    <section class="submit">
+      <div class="text-center">
+        <div [style.visibility]="waiting ? 'visible' : 'hidden'" class="spin-container animation-spin">
+          <mat-icon aria-label="loading" color="primary" class="x2">autorenew</mat-icon>
+        </div>
+        <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Log In</button>
+      </div>
+    </section>
+  </form>
+</div>

@@ -1,0 +1,32 @@
+<div *ngIf="visible" class="overlay fixed h-screen w-screen flex flex-wrap items-center justify-center top-0 left-0 py-3  overflow-y-auto">
+  <div class="modal-content p-6 bg-white rounded-lg shadow-xl">
+    <h3 class="w-full text-2x text-center pt-3 pb-5">Search for flight from {{ airport.name }}</h3>
+    <form class="flex" [formGroup]="airportForm" (ngSubmit)="onSubmit()">
+      <div class="field px-3">
+        <mat-form-field>
+          <mat-label>Arrival or departure</mat-label>
+          <mat-select placeholder="Choose type" class="flex-grow flex items-center" formControlName="type" >
+            <mat-option value="arrival">Arrival</mat-option>
+            <mat-option value="departure">Departure</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="field px-3">
+        <mat-form-field>
+          <input type="number" placeholder="X minutes (350+)" aria-label="X minutes" matInput formControlName="minutes" />
+        </mat-form-field>
+      </div>
+      <div class="flex items-center px-3">
+        <button mat-raised-button color="primary" [disabled]="!airportForm.valid">Search</button>
+      </div>
+    </form>
+    <div class="results">
+      <div class="text-center text-red-700" *ngIf="result && !result.length">No flights found</div>
+      <div class="rounded" *ngFor="let flight of result">
+        <p>Callsign {{ flight.callsign }}</p>
+        <p>DepartureAirport {{ flight.estDepartureAirport || "Unknown" }}</p>
+        <p>Arrival Airport {{ flight.estArrivalAirport }}</p>
+      </div>
+    </div>
+  </div>
+  </div>

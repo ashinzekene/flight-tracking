@@ -1,0 +1,21 @@
+<div class="dashboard bg-gray-200">
+  <header>
+    <h1 class="text-3xl indigo-700 p-3 pl-6">Flight Tracking System</h1>
+  </header>
+  
+  <section class="p-4 flex flex-wrap">
+    <article *ngFor="let airport of airports" class="p-3 sm:w-full w-full md:w-1/2 lg:w-1/4 h-56">
+      <div class="flex flex-col w-full p-6 bg-white rounded-lg shadow-sm h-full cursor-pointer">
+        <img class="w-12" [src]="getLogo(airport.countryCode)" [alt]="airport.country">
+        <div class="flex-grow flex items-center">
+          <h4 class="text-xl text-gray-900 leading-tight">{{ airport.name }}</h4>
+        </div>
+        <div class="pt-1">
+          <p class="text-base text-gray-600 leading-normal">{{ airport.location }}</p>
+        </div>
+      </div>
+    </article>
+  </section>
+</div>
+
+<app-modal [airport]="airports[0]" [visible]="true"></app-modal>
