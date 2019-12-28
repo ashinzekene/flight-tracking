@@ -4,7 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import {
-  MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatSelectModule, MatOptionModule
+  MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule,
+  MatSelectModule, MatOptionModule, MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
 import { ModalComponent } from './modal/modal.component';
 
@@ -19,6 +20,8 @@ const modules = [
   MatIconModule,
   MatSelectModule,
   MatOptionModule,
+  MatNativeDateModule,
+  MatDatepickerModule,
   MatInputModule,
 ];
 

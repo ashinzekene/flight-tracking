@@ -19,32 +19,34 @@ export class ModalComponent implements OnInit {
   loading = false;
 
   airportForm = new FormGroup({
-    minutes: new FormControl('', [Validators.required, Validators.min(300)]),
+    minutes: new FormControl('', [Validators.required, Validators.min(0), Validators.max(60)]),
+    hours: new FormControl('', [Validators.required, Validators.min(0), Validators.max(60)]),
     type: new FormControl('arrival', [Validators.required, Validators.pattern(/arrival|departure/)]),
   });
+
   constructor(private api: ApiService) { }
 
   onSubmit() {
     const minutes = this.airportForm.get('minutes').value;
+    const hours = this.airportForm.get('hours').value;
     const type = this.airportForm.get('type').value;
     this.loading = true;
 
     let subscription: Observable<Flight[]>;
     if (type === 'arrival') {
-      subscription = this.api.arrivalsByAirport(this.airport.icao, minutes);
+      subscription = this.api.arrivalsByAirport(this.airport.icao, hours, minutes);
     } else {
-      subscription = this.api.departuresByAirport(this.airport.icao, minutes);
+      subscription = this.api.departuresByAirport(this.airport.icao, hours, minutes);
     }
     this.result = undefined;
     subscription.subscribe(flights => {
       this.result = flights;
       this.loading = false;
     },
-    err => {
-      if (err.status === 404) { this.result = []; }
-      this.loading = false;
-
-    });
+      err => {
+        if (err.status === 404) { this.result = []; }
+        this.loading = false;
+      });
   }
 
   getDate(time?: number) {

@@ -14,12 +14,12 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  arrivalsByAirport(airportICAO: string, minutes: number): Observable<Flight[]> {
-    return this.http.get<Flight[]>(this.getUrl('arrival', airportICAO, this.minutes(minutes),  this.now()));
+  arrivalsByAirport(airportICAO: string, hours: number, minutes: number): Observable<Flight[]> {
+    return this.http.get<Flight[]>(this.getUrl('arrival', airportICAO, this.getTime(hours, minutes), this.now()));
   }
 
-  departuresByAirport(airportICAO: string, minutes: number): Observable<Flight[]> {
-    return this.http.get<Flight[]>(this.getUrl('departure', airportICAO, this.minutes(minutes),  this.now()));
+  departuresByAirport(airportICAO: string, hours: number, minutes: number): Observable<Flight[]> {
+    return this.http.get<Flight[]>(this.getUrl('departure', airportICAO, this.getTime(hours, minutes), this.now()));
   }
 
   get airports(): Airport[] {
@@ -30,8 +30,11 @@ export class ApiService {
     return (+new Date() / 1000).toFixed(0);
   }
 
-  private minutes(mins: number): string {
-    return (+this.now() - (60 * mins)).toFixed(0);
+  private getTime(hrs: number, mins: number): string {
+    const oneHr = 3.6E6;
+    const date = +new Date();
+    const diff =  (oneHr / 60 * mins) + (oneHr * hrs);
+    return ((date - diff) / 1000).toFixed();
   }
 
   private getAirportFromICAO(icao: string) {
